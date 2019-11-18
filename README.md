@@ -10,3 +10,22 @@ docker run -p 80:80 \
   --link postgres-backend-test:postgres-backend-test \
   -d dpage/pgadmin4
 ```
+# Install sequelize cli globally
+```bash
+npm install -g sequelize-cli
+```
+
+# Create DB
+```bash
+sequelize db:create
+```
+
+# Run migrations
+```bash
+sequelize db:migrate
+```
+
+# Create new migration
+```bash
+sequelize model:generate --name Users --attributes name:string,email:string
+```
