@@ -17,4 +17,21 @@ router.get("/", async (req, res) => {
   }
 })
 
+router.post("/", async (req, res) => {
+  const { name, status, content, category, userId } = req.body
+  try {
+    const results = await Cards.create({
+      name, status, content, category, userId
+    })
+    res.json({
+      data: results
+    })
+  }
+  catch (err) {
+    res.status(400).json({
+      error: err
+    })
+  }
+})
+
 module.exports = router

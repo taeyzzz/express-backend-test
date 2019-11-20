@@ -25,7 +25,12 @@ sequelize db:create
 sequelize db:migrate
 ```
 
-# Create new migration
+# Create new table model
 ```bash
 sequelize model:generate --name Users --attributes name:string,email:string
+```
+
+# Create new migration
+```bash
+sequelize migration:generate --name add-password-to-user-table
 ```

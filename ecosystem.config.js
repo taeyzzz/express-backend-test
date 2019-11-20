@@ -11,7 +11,8 @@ module.exports = {
       DB_NAME: "postgres-backend-test",
       DB_HOST: "127.0.0.1",
       DB_DIALECT: "postgres",
-      DB_OPERATOR_ALIASES: false
+      DB_OPERATOR_ALIASES: false,
+      SALT_ROUNDS: 10
     },
     env_production: {
       NODE_ENV: 'production',
@@ -21,7 +22,8 @@ module.exports = {
       DB_NAME: "postgres-backend-prod",
       DB_HOST: "127.0.0.1",
       DB_DIALECT: "postgres",
-      DB_OPERATOR_ALIASES: false
+      DB_OPERATOR_ALIASES: false,
+      SALT_ROUNDS: 10
     }
   }],
 
