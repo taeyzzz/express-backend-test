@@ -27,31 +27,6 @@ app.get("/", (req, res) => {
   })
 })
 
-app.post("/test", async (req, res) => {
-  const { email, password, firstName, lastName } = req.body
-  console.log(email, password, firstName, lastName);
-  try {
-    const result = await Users.create({
-      email,
-      password,
-      firstName,
-      lastName
-    })
-    const createdResult = result.get()
-    console.log(createdResult);
-    res.status(201).json({
-      data: createdResult
-    })
-  }
-  catch (err) {
-    console.log(err);
-    res.status(400).json({
-      message: err.errors.map(obj => obj.message)
-    })
-  }
-})
-
-
 app.listen(PORT, () => {
   console.log(`Server is running on PORT: ${PORT}`);
 })

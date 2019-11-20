@@ -9,7 +9,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Cards.associate = function(models) {
     // associations can be defined here
-    Cards.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' })
+    Cards.belongsTo(models.Users, {
+      foreignKey: {
+        name: "userId",
+        allowNull: false
+      },
+      as: "user"
+    })
   };
   return Cards;
 };
