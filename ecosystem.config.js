@@ -12,7 +12,8 @@ module.exports = {
       DB_HOST: "127.0.0.1",
       DB_DIALECT: "postgres",
       DB_OPERATOR_ALIASES: false,
-      SALT_ROUNDS: 10
+      SALT_ROUNDS: 10,
+      JWT_PRIVATE_KEY: "taeyzzz"
     },
     env_production: {
       NODE_ENV: 'production',
@@ -23,7 +24,8 @@ module.exports = {
       DB_HOST: "127.0.0.1",
       DB_DIALECT: "postgres",
       DB_OPERATOR_ALIASES: false,
-      SALT_ROUNDS: 10
+      SALT_ROUNDS: 10,
+      JWT_PRIVATE_KEY: "taeyzzz"
     }
   }],
 
