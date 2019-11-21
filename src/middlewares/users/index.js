@@ -30,11 +30,9 @@ exports.show = async (req, res, next) => {
       err.statusCode = 404
       throw err
     }
-    else{
-      res.json({
-        data: result
-      })
-    }
+    res.json({
+      data: result
+    })
   }
   catch (err) {
     next(err)
@@ -55,14 +53,18 @@ exports.update = async (req, res, next) => {
       err.statusCode = 400
       throw err
     }
-    else{
-      const updated = await selectedUser.update({
-        firstName, lastName
-      })
-      res.json({
-        data: updated
-      })
+    const isTargetIsCurrentUser = selectedUser.get().id === req.currentUser.id
+    if(!isTargetIsCurrentUser){
+      const err = new Error("Bad Request")
+      err.statusCode = 400
+      throw err
     }
+    const updated = await selectedUser.update({
+      firstName, lastName
+    })
+    res.json({
+      data: updated
+    })
   }
   catch (err) {
     next(err)
@@ -82,10 +84,8 @@ exports.delete = async (req, res, next) => {
       err.statusCode = 400
       throw err
     }
-    else{
-      await selectedUser.destroy()
-      res.status(204).send()
-    }
+    await selectedUser.destroy()
+    res.status(204).send()
   }
   catch (err) {
     next(err)
@@ -124,23 +124,19 @@ exports.login = async (req, res, next) => {
       err.statusCode = 401
       throw err
     }
-    else{
-      const user = result.get()
-      const isPasswordValid = await bcrypt.compare(password, user.passwordHash)
-      if(isPasswordValid){
-        const token = await jwt.sign(user, process.env.JWT_PRIVATE_KEY);
-        const expired = moment().add(1, "days").toDate()
-        res.cookie("token", token, { expires: expired, httpOnly: true })
-        res.json({
-          data: user
-        })
-      }
-      else {
-        const err = new Error("Email or Password is not valid.")
-        err.statusCode = 401
-        throw err
-      }
+    const user = result.get()
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash)
+    if(!isPasswordValid){
+      const err = new Error("Email or Password is not valid.")
+      err.statusCode = 401
+      throw err
     }
+    const token = await jwt.sign(user, process.env.JWT_PRIVATE_KEY);
+    const expired = moment().add(1, "days").toDate()
+    res.cookie("token", token, { expires: expired, httpOnly: true })
+    res.json({
+      data: user
+    })
   }
   catch (err) {
     next(err)
@@ -167,7 +163,7 @@ exports.getSession = async (req, res, next) => {
       }
     })
     res.json({
-      message: user
+      data: user
     })
   }
   catch (err) {
@@ -183,17 +179,15 @@ exports.verifyToken = async (req, res, next) => {
       err.statusCode = 401
       throw err
     }
-    else{
-      const decoded = await jwt.verify(token, process.env.JWT_PRIVATE_KEY)
-      const result = await Users.findOne({
-        where: {
-          id: decoded.id
-        }
-      })
-      const user = result.get()
-      req.currentUser = user
-      next()
-    }
+    const decoded = await jwt.verify(token, process.env.JWT_PRIVATE_KEY)
+    const result = await Users.findOne({
+      where: {
+        id: decoded.id
+      }
+    })
+    const user = result.get()
+    req.currentUser = user
+    next()
   }
   catch (err) {
     next(err)

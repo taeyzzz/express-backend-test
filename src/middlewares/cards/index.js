@@ -26,11 +26,9 @@ exports.show = async (req, res, next) => {
       err.statusCode = 404
       throw err
     }
-    else{
-      res.json({
-        data: result
-      })
-    }
+    res.json({
+      data: result
+    })
   }
   catch (err) {
     next(err)
@@ -67,20 +65,24 @@ exports.update = async (req, res, next) => {
     })
     if(!selectedCard){
       const err = new Error("Not Found")
+      err.statusCode = 404
+      throw err
+    }
+    const isCardBelongToCurrentUser = selectedCard.get().userId === req.currentUser.id
+    if(!isCardBelongToCurrentUser){
+      const err = new Error("Bad Request")
       err.statusCode = 400
       throw err
     }
-    else{
-      const updated = await selectedCard.update({
-        name: name || selectedCard.get().name,
-        status: status || selectedCard.get().status,
-        content: content || selectedCard.get().content,
-        category: category || selectedCard.get().category
-      })
-      res.json({
-        data: updated
-      })
-    }
+    const updated = await selectedCard.update({
+      name: name || selectedCard.get().name,
+      status: status || selectedCard.get().status,
+      content: content || selectedCard.get().content,
+      category: category || selectedCard.get().category
+    })
+    res.json({
+      data: updated
+    })
   }
   catch (err) {
     next(err)
@@ -100,10 +102,14 @@ exports.delete = async (req, res, next) => {
       err.statusCode = 400
       throw err
     }
-    else{
-      await selectedCard.destroy()
-      res.status(204).send()
+    const isCardBelongToCurrentUser = selectedCard.get().userId === req.currentUser.id
+    if(!isCardBelongToCurrentUser){
+      const err = new Error("Bad Request")
+      err.statusCode = 400
+      throw err
     }
+    await selectedCard.destroy()
+    res.status(204).send()
   }
   catch (err) {
     next(err)
