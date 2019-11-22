@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const moment = require('moment');
 const jwt = require("jsonwebtoken")
 
-const models = require("../../../db/models")
+const models = require("../../db/models")
 const Users = models.Users
 
 exports.login = async (req, res, next) => {

@@ -1,5 +1,5 @@
-const dev_environment = require("../../ecosystem.config").apps[0].env
-const prod_environment = require("../../ecosystem.config").apps[0].env_production
+const dev_environment = require("../../../ecosystem.config").apps[0].env
+const prod_environment = require("../../../ecosystem.config").apps[0].env_production
 
 const env = {
   "development": {

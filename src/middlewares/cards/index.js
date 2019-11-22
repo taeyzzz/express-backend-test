@@ -1,4 +1,4 @@
-const models = require("../../../db/models")
+const models = require("../../db/models")
 const Cards = models.Cards
 
 exports.index = async (req, res, next) => {
