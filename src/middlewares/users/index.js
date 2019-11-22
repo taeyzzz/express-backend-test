@@ -171,7 +171,7 @@ exports.getSession = async (req, res, next) => {
   }
 }
 
-exports.verifyToken = async (req, res, next) => {
+exports.authenticate = async (req, res, next) => {
   try {
     const token = req.cookies.token
     if(!token) {
