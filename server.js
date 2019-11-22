@@ -7,11 +7,9 @@ const cardsRouter = require('./src/routers/cards');
 const usersRouter = require('./src/routers/users');
 const registerRouter = require("./src/routers/register")
 const loginRouter = require("./src/routers/login")
-const errorHandler = require("./src/middlewares/utils/errorHandler")
+
 const usersMiddleWares = require("./src/middlewares/users")
-const models = require('./db/models');
-const Users = models.Users;
-const Cards = models.Cards;
+const errorHandler = require("./src/middlewares/utils/errorHandler")
 
 
 const app = express()
