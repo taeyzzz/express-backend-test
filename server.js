@@ -39,5 +39,6 @@ app.use((req, res) => {
 })
 
 app.listen(PORT, () => {
+  console.log(process.env.NODE_ENV);
   console.log(`Server is running on PORT: ${PORT}`);
 })
