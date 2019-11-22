@@ -1,4 +1,4 @@
-const { check } = require('express-validator')
+import { check } from 'express-validator'
 
 const createCardValidationRule = [
   check("name").trim().isLength({ min: 1 }).withMessage("name is required."),
@@ -7,6 +7,6 @@ const createCardValidationRule = [
   check("category").trim().isLength({ min: 1 }).withMessage("category is required.")
 ]
 
-module.exports = {
+export default {
   createCardValidationRule
 }

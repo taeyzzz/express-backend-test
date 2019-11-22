@@ -1,11 +1,10 @@
-const bcrypt = require('bcrypt');
-const moment = require('moment');
-const jwt = require("jsonwebtoken")
+import { Request, Response, NextFunction } from 'express';
+import jwt from "jsonwebtoken";
 
-const models = require("../../../db/models")
+import models from "../../../db/models";
 const Users = models.Users
 
-exports.index = async (req, res, next) => {
+const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const results = await Users.findAll({ include: "cards" })
     res.json({
@@ -17,7 +16,7 @@ exports.index = async (req, res, next) => {
   }
 }
 
-exports.show = async (req, res, next) => {
+const show = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
     const result = await Users.findOne({
@@ -39,7 +38,7 @@ exports.show = async (req, res, next) => {
   }
 }
 
-exports.update = async (req, res, next) => {
+const update = async (req: Request, res: Response, next: NextFunction) => {
   const { firstName, lastName } = req.body
   const { id } = req.params
   try {
@@ -71,7 +70,7 @@ exports.update = async (req, res, next) => {
   }
 }
 
-exports.delete = async (req, res, next) => {
+const _delete = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
     const selectedUser = await Users.findOne({
@@ -92,7 +91,7 @@ exports.delete = async (req, res, next) => {
   }
 }
 
-exports.logout = async (req, res, next) => {
+const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.clearCookie("token")
     res.status(204).send()
@@ -102,7 +101,7 @@ exports.logout = async (req, res, next) => {
   }
 }
 
-exports.getSession = async (req, res, next) => {
+const getSession = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.token
   try {
     const decoded = await jwt.verify(token, process.env.JWT_PRIVATE_KEY)
@@ -120,7 +119,7 @@ exports.getSession = async (req, res, next) => {
   }
 }
 
-exports.authenticate = async (req, res, next) => {
+const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.token
     if(!token) {
@@ -141,4 +140,14 @@ exports.authenticate = async (req, res, next) => {
   catch (err) {
     next(err)
   }
+}
+
+export default {
+  index,
+  show,
+  update,
+  _delete,
+  logout,
+  getSession,
+  authenticate,
 }

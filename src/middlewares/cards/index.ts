@@ -1,7 +1,8 @@
-const models = require("../../../db/models")
+import { Request, Response, NextFunction } from 'express';
+import Cards from "../../../db/models"
 const Cards = models.Cards
 
-exports.index = async (req, res, next) => {
+const index = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const results = await Cards.findAll({ include: "user"})
     res.json({
@@ -13,7 +14,7 @@ exports.index = async (req, res, next) => {
   }
 }
 
-exports.show = async (req, res, next) => {
+const show = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
     const result = await Cards.findOne({
@@ -35,7 +36,7 @@ exports.show = async (req, res, next) => {
   }
 }
 
-exports.create = async (req, res, next) => {
+const create = async (req: Request, res: Response, next: NextFunction) => {
   const { name, status, content, category } = req.body
   try {
     const results = await Cards.create({
@@ -54,7 +55,7 @@ exports.create = async (req, res, next) => {
   }
 }
 
-exports.update = async (req, res, next) => {
+const update = async (req: Request, res: Response, next: NextFunction) => {
   const { name, status, content, category } = req.body
   const { id } = req.params
   try {
@@ -89,7 +90,7 @@ exports.update = async (req, res, next) => {
   }
 }
 
-exports.delete = async (req, res, next) => {
+const _delete = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
     const selectedCard = await Cards.findOne({
@@ -114,4 +115,12 @@ exports.delete = async (req, res, next) => {
   catch (err) {
     next(err)
   }
+}
+
+export default {
+  index,
+  show,
+  create,
+  update,
+  _delete
 }
